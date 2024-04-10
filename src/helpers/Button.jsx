@@ -4,6 +4,7 @@ const Button = ({ btnName, faicon, clickHandler, disable, type }) => {
     <div className="flex items-center justify-center">
       <button
         type={type}
+        disable={disable}
         // onClick={() => {
         //   clickHandler();
         // }}
