@@ -4,7 +4,7 @@ const Inputfield = ({ formik, fieldName, fieldtype, label, placeholder }) => {
   return (
     <div className="flex flex-col">
       <label
-        className="mt-2 mb-0 ml-2 text-[#90D26D]"
+        className="mt-2 mb-0 ml-2 font-semibold text-[#2C7865]"
         htmlFor={label}
       >{`${label}`}</label>
       <Field
@@ -15,7 +15,7 @@ const Inputfield = ({ formik, fieldName, fieldtype, label, placeholder }) => {
       />
       <ErrorMessage
         name={fieldName}
-        className="text-sm text-red-400"
+        className="text-sm text-red-500 pl-4"
         component={fieldName}
       />
     </div>
