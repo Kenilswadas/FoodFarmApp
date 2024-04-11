@@ -1,46 +1,52 @@
 import React, { useState } from "react";
-import signinimage from "./Images/signinimage.jpg";
+import signinimage from "../helpers/Images/signinimage.jpg";
+import backimage from "../helpers/Images/johann-siemens-EPy0gBJzzZU-unsplash.jpg";
 import { BgImage } from "../helpers/Backgroundimage";
 import { Inputfield } from "../helpers/InputField";
 import { Button } from "../helpers/Button";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { FaGoogle } from "react-icons/fa";
-import { FaFacebook } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
 import { Form, Formik } from "formik";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../Firebaseconfig";
 import { ToastContainer, toast } from "react-toastify";
-function SignInpage() {
+import { auth } from "../Firebaseconfig";
+import { handleSigninwithGoogle } from "../helpers/SignInwith";
+import Loader from "../helpers/Loader";
+function SignInpage({ setIsloading, isLoading }) {
   const [isclicked, setIsclicked] = useState(false);
   const handleSignin = (values) => {
+    setIsloading(true);
     signInWithEmailAndPassword(auth, values.email, values.password)
       .then((res) => {
         toast.success("Sign In successfully");
         setIsclicked(false);
+        setIsloading(false);
       })
       .catch((err) => {
         console.log(err);
+        setIsloading(false);
         setIsclicked(false);
         toast.error(err.message);
       });
   };
+
   return (
     <div className="h-screen flex items-center justify-center">
       <ToastContainer />
-      <BgImage backgroundImage={signinimage} />
-      <div className=" flex relative rounded-3xl shadow-2xl max-sm:shadow-none 2xl:w-3/5 2xl:h-auto xl:h-auto xl:w-3/5 md:w-3/4 sm:w-4/5 max-sm:w-3/4 ">
-        <div className="w-4/6 flex max-sm:hidden">
+      {isLoading ? <Loader /> : null}
+      <BgImage backgroundImage={backimage} />
+      <div className="bg-white flex relative rounded-3xl shadow-2xl max-sm:shadow-none 2xl:w-3/5 2xl:h-auto xl:h-auto xl:w-3/5 md:w-3/4 sm:w-4/5 max-sm:w-3/4 ">
+        <div className="w-3/4 flex max-sm:hidden ml-8 mt-8 mb-8">
           <img
             src={signinimage}
             alt=""
-            className="w-full rounded-tl-3xl rounded-bl-3xl "
+            className="w-full rounded-tl-3xl rounded-3xl rounded-bl-3xl  "
           />
         </div>
-        <div className="bg-white shadow-2xl sm:w-3/5 max-sm:w-full flex items-start justify-center rounded-3xl m-8">
+        <div className=" sm:w-5/6 max-sm:w-full flex items-start justify-center rounded-3xl m-8">
           <div className=" w-4/5 text-center flex flex-col mt-5 ">
-            <h1 className="text-3xl font-bold text-[#2C7865] p-2 ">Sign In</h1>
+            <h1 className="font-bold text-[#2C7865] text-4xl p-2 ">Sign In</h1>
             <Formik
               initialValues={{
                 email: "",
@@ -49,17 +55,16 @@ function SignInpage() {
               validationSchema={Yup.object({
                 email: Yup.string()
                   .email("Invalid email address")
-                  .required("required"),
+                  .required("* required"),
                 password: Yup.string()
                   .matches(
                     /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/,
                     "must conatains upper case ,lower case , one special character and one digit"
                   )
-                  .required("required"),
+                  .required("* required"),
               })}
               onSubmit={(values, actions) => {
                 setIsclicked(true);
-                alert(JSON.stringify(values, null, 2));
                 actions.setSubmitting(false);
                 handleSignin(values);
               }}
@@ -80,25 +85,28 @@ function SignInpage() {
                     placeholder={"password"}
                     formik={values}
                   />
-                  <Button
-                    disable={isclicked ? true : false}
-                    btnName={"Sign in"}
-                    type={"submit"}
-                    formik={values}
-                    // clickHandler={formik.handleSubmit}
-                  />
+                  <div className="flex items-center justify-center">
+                    <Button
+                      disable={isclicked ? true : false}
+                      btnName={"Sign in"}
+                      type={"submit"}
+                      formik={values}
+                    />
+                  </div>
                 </Form>
               )}
             </Formik>
-            <p className="text-[#2C7865] mt-5">---- Login with ----</p>
-            <div className="flex justify-between text-center p-4 ">
-              <FaGoogle className="text-[#2C7865]" size={20} />
-              <FaFacebook className="text-[#2C7865]" size={20} />
-              <FaTwitter className="text-[#2C7865]" size={20} />
+            <p className="text-[#2C7865] mt-2">---- Login with ----</p>
+            <div className="flex items-center justify-center">
+              <Button
+                btnName={"Sign In With Google"}
+                clickHandler={handleSigninwithGoogle}
+                faicon={<FaGoogle />}
+              />
             </div>
-            <p className="text-[#90D26D] max-sm:mb-4 sm:mb-4 md:mb-4">
+            <p className="text-[#90D26D] text-xl max-sm:mb-4 sm:mb-4 md:mb-4 sm:mt-5 ">
               {"New to this Site : "}
-              <Link className="underline text-[#2C7865]" to={"/SignUppage"}>
+              <Link className="underline text-[#2C7865]" to={"/Signuppage"}>
                 {"Sign Up"}
               </Link>
             </p>
