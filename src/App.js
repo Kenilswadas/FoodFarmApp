@@ -4,22 +4,24 @@ import SignInpage from "./Signin/SignInpage";
 import Signuppage from "./SignUp/Signuppage";
 import { useEffect, useState } from "react";
 import Homepage from "./User-Side/Homepage";
-import { auth } from "./Firebaseconfig";
+// import { auth } from "./Firebaseconfig";
+import { getAuth } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
+import Dashboard from "./Admin-side/pages/Dashboard";
+import Addcategory from "./Admin-side/pages/Addcategory";
 function App() {
+  const auth = getAuth();
   const [isLoading, setIsloading] = useState(false);
   const [UserName, setUserName] = useState(null);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log(user.displayName);
-        setUserName(user?.displayName);
+        setUserName(`${user?.displayName}`);
       } else {
         setUserName(null);
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth?.currentUser]);
+  }, [auth, auth.currentUser]);
   return (
     <div className="App">
       <BrowserRouter>
@@ -44,6 +46,18 @@ function App() {
             path="/Signuppage"
             element={
               <Signuppage setIsloading={setIsloading} isLoading={isLoading} />
+            }
+          />
+          <Route
+            path="/Admin/Dashboard"
+            element={
+              <Dashboard setIsloading={setIsloading} isLoading={isLoading} />
+            }
+          />
+          <Route
+            path="/Admin/Addcategory"
+            element={
+              <Addcategory setIsloading={setIsloading} isLoading={isLoading} />
             }
           />
         </Routes>

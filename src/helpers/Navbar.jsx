@@ -7,7 +7,7 @@ import { auth } from "../Firebaseconfig";
 function Navbar({ UserName }) {
   return (
     <>
-      <nav className="bg-[#D9EDBF] sticky top-0 shadow-2xl ml-10 mr-10">
+      <nav className="bg-gradient-to-r from-[#90D26D] to-[#D9EDBF] sticky top-0 shadow-2xl ml-10 mr-10">
         <ul className="flex items-center justify-around p-2">
           <div className="w-3/4">
             <li className="text-green-500 flex pl-10">
@@ -18,7 +18,6 @@ function Navbar({ UserName }) {
             <li className="text-green-500 flex items-center w-2/4 ml-8">
               <FaUser size={20} />
               <p className="text-[#2C7865] pl-2">
-                {console.log(auth?.currentUser)}
                 {UserName ? UserName : localStorage.getItem("UseName")}
               </p>
             </li>
