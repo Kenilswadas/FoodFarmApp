@@ -3,7 +3,7 @@ import signinimage from "../helpers/Images/signinimage.jpg";
 import backimage from "../helpers/Images/johann-siemens-EPy0gBJzzZU-unsplash.jpg";
 import { BgImage } from "../helpers/Backgroundimage";
 import { Inputfield } from "../helpers/InputField";
-import { Button } from "../helpers/Button";
+import { Button, SignInButton } from "../helpers/Button";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { FaGoogle } from "react-icons/fa";
@@ -127,7 +127,7 @@ function Signuppage({ setIsloading, isLoading }) {
                     formik={values}
                   />
                   <div className="flex items-center justify-center">
-                    <Button
+                    <SignInButton
                       btnName={"Sign Up"}
                       disable={isclicked ? true : false}
                       formik={values}
@@ -140,7 +140,7 @@ function Signuppage({ setIsloading, isLoading }) {
             </Formik>
             <p className="text-[#2C7865] mt-2">---- Login with ----</p>
             <div className="flex items-center justify-center">
-              <Button
+              <SignInButton
                 btnName={"Sign In With Google"}
                 clickHandler={handleSigninwithGoogle}
                 faicon={<FaGoogle />}

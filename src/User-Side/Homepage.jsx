@@ -3,13 +3,11 @@ import Navbar from "../helpers/Navbar";
 import Loader from "../helpers/Loader";
 import { auth } from "../Firebaseconfig";
 
-function Homepage({ UseName }) {
-  console.log(auth?.currentUser);
-  console.log(auth);
+function Homepage({ UserName }) {
   return (
-    <div>
+    <div className="h-screen bg-[#E1F0DA]">
       {auth?.currentUser === null ? <Loader /> : null}
-      <Navbar UserName={UseName} />
+      <Navbar UserName={UserName} />
     </div>
   );
 }
